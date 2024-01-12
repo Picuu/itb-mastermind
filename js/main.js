@@ -10,3 +10,27 @@ function generateMasterColors (colorsArray) {
     }
     return array
 }
+
+function compareColors(userArray, masterArray) {
+    const array = []
+
+    for (i in userArray) {
+        if (masterArray.some(e => e == userArray[i])) {
+            if (userArray[i] == masterArray[i]) array.push("black")
+            else array.push("white")
+        } else {
+            array.push("gray")
+        }
+    }
+
+    return array
+}
+
+const masterArray = generateMasterColors(colors)
+const userArray = ["white", "blue", "fuchsia", "red"]
+const resultArray = compareColors(userArray, masterArray)
+
+console.log("Master Array", masterArray)
+console.log("User Array  ", userArray)
+console.log("Result Array",resultArray)
+
