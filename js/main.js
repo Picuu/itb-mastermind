@@ -34,19 +34,18 @@ function createResultArray(userArray, masterArray, colorsInMaster, colorsAmountI
     const result = []
 
     for (let i in userArray) {
+        let pushResult = GRAY
+
         if (masterArray.some(e => e == userArray[i])) {
             const colorIndex = colorsInMaster.indexOf(userArray[i])
             if (colorsAmountInMaster[colorIndex] != 0) {
                 colorsAmountInMaster[colorIndex]--
-                if (userArray[i] == masterArray[i]) result.push(BLACK)
-                else result.push(WHITE)
-            } else {
-                result.push(GRAY)
+                if (userArray[i] == masterArray[i]) pushResult = BLACK
+                else pushResult = WHITE
             }
-
-        } else {
-            result.push(GRAY)
         }
+
+        result.push(pushResult)
     }
 
     return result
