@@ -1,6 +1,9 @@
 const MAX_TRIES = 10
 const MAX_COLORS_COMBIATIONS = 4
 const colors = ["white", "blue", "fuchsia", "red", "orange", "yellow", "green", "aqua"]
+const GRAY = "gray"
+const WHITE = "white"
+const BLACK = "black"
 
 function generateMasterColors (colorsArray) {
     const array = []
@@ -12,22 +15,46 @@ function generateMasterColors (colorsArray) {
 }
 
 function compareColors(userArray, masterArray) {
-    const array = []
+    
+    const colorsInMaster = []
+    const colorsAmountInMaster = []
 
-    for (i in userArray) {
+    for (let i in masterArray) {
+        if (!colorsInMaster.some(e => e == masterArray[i])) colorsInMaster.push(masterArray[i])
+
+        const index = colorsInMaster.indexOf(masterArray[i])
+        if (isNaN(colorsAmountInMaster[index])) colorsAmountInMaster[index] = 1
+        else colorsAmountInMaster[index]++
+    }
+
+    return createResultArray(userArray, masterArray, colorsInMaster, colorsAmountInMaster)
+}
+
+function createResultArray(userArray, masterArray, colorsInMaster, colorsAmountInMaster) {
+    const result = []
+
+    for (let i in userArray) {
         if (masterArray.some(e => e == userArray[i])) {
-            if (userArray[i] == masterArray[i]) array.push("black")
-            else array.push("white")
+            const colorIndex = colorsInMaster.indexOf(userArray[i])
+            if (colorsAmountInMaster[colorIndex] != 0) {
+                colorsAmountInMaster[colorIndex]--
+                if (userArray[i] == masterArray[i]) result.push(BLACK)
+                else result.push(WHITE)
+            } else {
+                result.push(GRAY)
+            }
+
         } else {
-            array.push("gray")
+            result.push(GRAY)
         }
     }
 
-    return array
+    return result
 }
 
-const masterArray = generateMasterColors(colors)
-const userArray = ["white", "blue", "fuchsia", "red"]
+// const masterArray = generateMasterColors(colors)
+const masterArray = ["blue", "white", "green", "yellow"]
+const userArray = ["blue", "green", "blue", "green"]
 const resultArray = compareColors(userArray, masterArray)
 
 console.log("Master Array", masterArray)
