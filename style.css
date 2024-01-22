@@ -6,21 +6,20 @@
     --orange: #FF851B;
     --yellow: #FFDC00;
     --green: #2ECC40;
-    --gray: #AAA;
+    --gray: #BBB;
     --white: #FFF;
     --black: #111;
 }
 
-#white{background-color: white; border: 1px solid black;}
-#blue{background-color: blue;}
-#green{background-color: green;}
-#violet{background-color: violet}
-#yellow{background-color: yellow;}
-#red{background-color: red;}
-#orange{background-color: orange;}
-#cyan{background-color: cyan;}
-
-.grey{background-color: #BABABA;}
+#white, .white { background-color: var(--white); border: 1px solid var(--black); }
+#blue, .blue { background-color: var(--blue); }
+#aqua, .aqua { background-color: var(--aqua); }
+#fuchsia, .fuchsia { background-color: var(--fuchsia); }
+#red, .red { background-color: var(--red); }
+#orange, .orange { background-color: var(--orange); }
+#yellow, .yellow { background-color: var(--yellow); }
+#green, .green { background-color: var(--green); }
+#gray, .gray { background-color: var(--gray); }
 
 main{
     padding: 0;
@@ -83,6 +82,7 @@ main{
     position: sticky;
     top:0;
     z-index: 100;
+    background-color: var(--white);
 }
 
 .cel{
@@ -92,7 +92,7 @@ main{
     font-weight: bold;
     position: relative;
     margin: 5px auto;
-    background-color: grey;
+    background-color: var(--gray);
     border-radius: 10px;    
     text-align: center;    
     justify-content: center;
@@ -107,13 +107,13 @@ main{
     font-weight: bold;
     position: relative;
     margin: 5px auto;
-    background-color: #BABABA;
+    background-color: var(--gray);
     border-radius: 10px;    
     text-align: center;    
     justify-content: center;
     font-size: 2.25em;
     align-items: center;
-    border: 1px solid  #BABABA;  
+    border: 1px solid var(--gray);  
 }
 
 .cercleResult{
@@ -122,9 +122,9 @@ main{
     width: 30px;
     position: relative;
     margin: 2px auto;
-    background-color: grey;
+    background-color: var(--gray);
     border-radius: 50%;  
-    border: 1px solid grey;  
+    border: 1px solid var(--gray);  
 }
 
 .comprobar, .info{
@@ -160,7 +160,7 @@ input{
 }
 
 input:focus, input:hover{    
-    background-color: #BABABA;
+    background-color: var(--gray);
 }
 
 
