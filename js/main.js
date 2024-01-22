@@ -9,6 +9,7 @@ let tries = 0;
 let aciertos = 0;
 
 function init() {
+    // 1. Genera el código random del master
     const masterArray = generateMasterColors(colors)
     const userArray = ["blue", "green", "blue", "green"]
     const resultArray = compareColors(userArray, masterArray)
@@ -17,9 +18,8 @@ function init() {
     console.log("User Array  ", userArray)
     console.log("Result Array",resultArray)
 
-    //1. Genera el código random del master
-
-    //2. Crea todas las filas según el número de intentos.
+    // 2. Crea todas las filas según el número de intentos.
+    createRows(MAX_TRIES)
 }
 
 function generateMasterColors (colorsArray) {
@@ -70,47 +70,69 @@ function createResultArray(userArray, masterArray, colorsInMaster, colorsAmountI
     return result
 }
 
+function createRows(maxTries) {
+    const container = document.getElementById("Result")
 
-/* Llamaremos a esta función desde el botón HTML de la página para comprobar la propuesta de combinación que nos ha
-introducido el usuario.
+    for (i=1; i<=maxTries; i++) {
+        /* Template con el código HTML que corresponde a cada fila de juego/intento. */
+        const ROW_RESULT = `<div class="rowResult w100 flex wrap">
+            <div id="userCombiRow${i}" class="rowUserCombi w75 flex wrap">
+            <div class="w25">
+                <div class="celUserCombi flex"></div>
+            </div>
+            <div class="w25">
+                <div class="celUserCombi flex"></div>
+            </div>
+            <div class="w25">
+                <div class="celUserCombi flex"></div>
+            </div>
+            <div class="w25">
+                <div class="celUserCombi flex"></div>
+            </div>
+            </div>
+            <div class="rowCercleResult w25 flex wrap center">
+            <div class="w40 h40">
+                    <div class="cercleResult flex"></div>
+            </div>
+            <div class="w40 h40">
+                <div class="cercleResult flex"></div>
+            </div>
+            <div class="w40 h40">
+                <div class="cercleResult flex"></div>
+            </div>
+            <div class="w40 h40">
+                <div class="cercleResult flex"></div>
+            </div>
+            <div>
+        </div>`;
+        
+        container.innerHTML += ROW_RESULT
+    }
+}
+
+
+/* Llamaremos a esta función desde el botón HTML de la página para comprobar la propuesta de combinación que nos ha introducido el usuario.
 Informamos al usuario del resultado y del número de intentos que lleva*/
 function Comprobar() {
+    const $combiText = document.getElementById("combiText")
+    const userColors = $combiText.value.split("-")
+
+    if (!userColors || userColors.length < 4) return
+
+    $combiText.value = ""
+
+    tries++
+    const tryRow = document.getElementById(`userCombiRow${tries}`)
+
 }
 
 /** Procedimiento que se ejecuta cada vez que el usuario selecciona un color, hasta el número máximo de colores permitidos en la combinación. */
 function añadeColor(color) {
-   
+    const $combiText = document.getElementById("combiText")
+    const userColors = $combiText.value.split("-")
+
+    if (userColors.length == MAX_COLORS_COMBIATIONS) return
+    if (!$combiText.value) return $combiText.value += color
+
+    $combiText.value += `-${color}`
 }
-
-
-/** Template con el código HTML que corresponde a cada fila de juego/intento. */
-const ROW_RESULT = `<div class="rowResult w100 flex wrap">
-    <div class="rowUserCombi w75 flex wrap">
-       <div class="w25">
-           <div class="celUserCombi flex"></div>
-       </div>
-       <div class="w25">
-           <div class="celUserCombi flex"></div>
-       </div>
-       <div class="w25">
-           <div class="celUserCombi flex"></div>
-       </div>
-       <div class="w25">
-           <div class="celUserCombi flex"></div>
-       </div>
-    </div>alis/Mastermind_CODIGO
-    <div class="rowCercleResult w25 flex wrap center">
-       <div class="w40 h40">
-            <div class="cercleResult flex"></div>
-       </div>
-       <div class="w40 h40">
-           <div class="cercleResult flex"></div>
-       </div>
-       <div class="w40 h40">
-           <div class="cercleResult flex"></div>
-       </div>
-       <div class="w40 h40">
-           <div class="cercleResult flex"></div>
-       </div>
-    <div>
-</div>`;
