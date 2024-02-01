@@ -20,6 +20,10 @@ function init() {
 
     // 2. Crea todas las filas según el número de intentos.
     createRows(MAX_TRIES)
+
+    // Listener del botón Comprobar
+    const checkButton = document.getElementById("checkButton")
+    checkButton.addEventListener("click", () => Comprobar(masterArray))
 }
 
 function generateMasterColors (colorsArray) {
@@ -90,7 +94,7 @@ function createRows(maxTries) {
                 <div class="celUserCombi flex"></div>
             </div>
             </div>
-            <div class="rowCercleResult w25 flex wrap center">
+            <div id="cercleResult${i}" class="rowCercleResult w25 flex wrap center">
             <div class="w40 h40">
                     <div class="cercleResult flex"></div>
             </div>
@@ -110,22 +114,6 @@ function createRows(maxTries) {
     }
 }
 
-
-/* Llamaremos a esta función desde el botón HTML de la página para comprobar la propuesta de combinación que nos ha introducido el usuario.
-Informamos al usuario del resultado y del número de intentos que lleva*/
-function Comprobar() {
-    const $combiText = document.getElementById("combiText")
-    const userColors = $combiText.value.split("-")
-
-    if (!userColors || userColors.length < 4) return
-
-    $combiText.value = ""
-
-    tries++
-    const tryRow = document.getElementById(`userCombiRow${tries}`)
-
-}
-
 /** Procedimiento que se ejecuta cada vez que el usuario selecciona un color, hasta el número máximo de colores permitidos en la combinación. */
 function añadeColor(color) {
     const $combiText = document.getElementById("combiText")
@@ -136,3 +124,32 @@ function añadeColor(color) {
 
     $combiText.value += `-${color}`
 }
+
+
+/* Llamaremos a esta función desde el botón HTML de la página para comprobar la propuesta de combinación que nos ha introducido el usuario.
+Informamos al usuario del resultado y del número de intentos que lleva*/
+function Comprobar(masterArray) {
+    const $combiText = document.getElementById("combiText")
+    const userColors = $combiText.value.split("-")
+
+    if (!userColors || userColors.length < 4) return
+
+    $combiText.value = ""
+
+    tries++
+    const tryRow = document.getElementById(`userCombiRow${tries}`)
+    const resultRow = document.getElementById(`cercleResult${tries}`)
+
+    const resultColors = compareColors(userColors, masterArray)
+
+    for (const i in userColors) {
+        const colorBox = tryRow.querySelector(`div:nth-child(${parseInt(i)+1}) > div.celUserCombi`)
+        colorBox.style.backgroundColor = `var(--${userColors[i]})`
+
+        const resultCercle = resultRow.querySelector(`div:nth-child(${parseInt(i)+1}) > div.cercleResult`)
+        resultCercle.style.backgroundColor = resultColors[i]
+    }
+
+    updateTries(userColors, masterArray, resultColors)
+}
+
