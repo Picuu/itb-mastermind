@@ -6,7 +6,7 @@ const WHITE = "white"
 const BLACK = "black"
 
 let tries = 0;
-let aciertos = 0;
+// let aciertos = 0; // No es necesario ¿?
 
 function init() {
     // 1. Genera el código random del master
@@ -24,6 +24,8 @@ function init() {
     // Listener del botón Comprobar
     const checkButton = document.getElementById("checkButton")
     checkButton.addEventListener("click", () => Comprobar(masterArray))
+
+    youWin()
 }
 
 function generateMasterColors (colorsArray) {
@@ -151,5 +153,28 @@ function Comprobar(masterArray) {
     }
 
     updateTries(userColors, masterArray, resultColors)
+}
+
+function updateTries(userArray, masterArray, resultArray) {
+    if (resultArray.every(e => e == "white")) {
+            youWin()
+            return
+        }
+
+    if (tries == MAX_TRIES) {
+        gameOver()
+        return
+    }
+
+    const triesInfo = document.getElementById("info")
+    triesInfo.textContent = `INCORRECTO! Intento número ${tries}, sigui probando :D`
+}
+
+function youWin() {
+    confetti()
+}
+
+function gameOver() {
+
 }
 
