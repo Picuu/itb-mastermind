@@ -11,12 +11,8 @@ let tries = 0;
 function init() {
     // 1. Genera el código random del master
     const masterArray = generateMasterColors(colors)
-    const userArray = ["blue", "green", "blue", "green"]
-    const resultArray = compareColors(userArray, masterArray)
 
     console.log("Master Array", masterArray)
-    console.log("User Array  ", userArray)
-    console.log("Result Array",resultArray)
 
     // 2. Crea todas las filas según el número de intentos.
     createRows(MAX_TRIES)
@@ -24,8 +20,6 @@ function init() {
     // Listener del botón Comprobar
     const checkButton = document.getElementById("checkButton")
     checkButton.addEventListener("click", () => Comprobar(masterArray))
-
-    youWin()
 }
 
 function generateMasterColors (colorsArray) {
@@ -156,8 +150,10 @@ function Comprobar(masterArray) {
 }
 
 function updateTries(userArray, masterArray, resultArray) {
-    if (resultArray.every(e => e == "white")) {
-            youWin()
+    const triesInfo = document.getElementById("info")
+
+    if (resultArray.every(e => e == "black")) {
+            setTimeout(() => youWin(triesInfo), 100) 
             return
         }
 
@@ -166,12 +162,52 @@ function updateTries(userArray, masterArray, resultArray) {
         return
     }
 
-    const triesInfo = document.getElementById("info")
     triesInfo.textContent = `INCORRECTO! Intento número ${tries}, sigui probando :D`
 }
 
-function youWin() {
-    confetti()
+function youWin(triesInfo) {
+    triesInfo.classList.add("hidden")
+
+    // confetti({
+    //     particleCount: 500,
+    //     spread: 360
+    //   });
+
+    // confetti({
+    // particleCount: 100,
+    // startVelocity: 30,
+    // spread: 360,
+    // origin: {
+    //     x: Math.random(),
+    //     // since they fall down, start a bit higher than random
+    //     y: Math.random() - 0.2
+    // }
+    // });
+
+    var duration = 30 * 1000;
+    var end = Date.now() + duration;
+
+    (function frame() {
+        // launch a few confetti from the left edge
+        confetti({
+            particleCount: 7,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 }
+        });
+        // and launch a few from the right edge
+        confetti({
+            particleCount: 7,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 }
+        });
+
+        // keep going until we are out of time
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+    }());
 }
 
 function gameOver() {
