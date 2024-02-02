@@ -21,6 +21,12 @@
 #green, .green { background-color: var(--green); }
 #gray, .gray { background-color: var(--gray); }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 main{
     padding: 0;
     margin: 0;
@@ -127,7 +133,7 @@ main{
     border: 1px solid var(--gray);  
 }
 
-.comprobar, .info{
+.comprobar {
     border: 1px solid #1aa1f0;
     border-radius: 5px;
     font-size: 1.2em;
@@ -139,9 +145,12 @@ main{
     margin: 10px;
 }
 .info{
-    border-color: crimson;
+    padding: .5rem;
     background-color: crimson;
+    border-radius: 5px;
+    font-size: 1.2em;
     color: white;
+    transition: all .2s ease-in-out;
 }
 label{
     color: #1aa1f0;
@@ -182,4 +191,8 @@ button:hover, button:focus{
 
 .text-center {
     text-align: center;
+}
+
+.hidden {
+    opacity: 0;
 }
