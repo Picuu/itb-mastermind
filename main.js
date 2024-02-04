@@ -156,6 +156,9 @@ function updateTries(resultArray, masterArray) {
 function youWin() {
     const winDialog = document.getElementById("winDialog")
     winDialog.showModal()
+
+    const totalTries = document.getElementById("totalTries")
+    totalTries.textContent = tries
     
     const confettiDuration = Date.now() + 500;
     (function frame() {
