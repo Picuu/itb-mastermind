@@ -134,7 +134,7 @@ function Comprobar(masterArray) {
         resultCircle.style.backgroundColor = resultColors[i]
     }
 
-    updateTries(userColors, masterArray, resultColors)
+    updateTries(resultColors)
 }
 
 function updateTries(resultArray) {
@@ -169,14 +169,26 @@ function youWin() {
          confetti({ particleCount: 100, startVelocity: 30, spread: 360, origin: { x: .5, y: .25 } })
          confetti({ particleCount: 100, startVelocity: 30, spread: 360, origin: { x: .65, y: .60 } })
     }, 1500)
+
+    disableButtons()
 }
 
 function gameOver() {
     const gameOverDialog = document.getElementById("gameOverDialog")
     gameOverDialog.showModal()
+
+    disableButtons()
 }
 
 function closeModal(id) {
     const dialog = document.getElementById(id)
     dialog.close()
+}
+
+function disableButtons() {
+    const palette = document.querySelectorAll("#palette > div")
+    palette.forEach(e => e.style.pointerEvents = "none")
+
+    const checkButton = document.getElementById("checkButton")
+    checkButton.style.pointerEvents = "none"
 }
