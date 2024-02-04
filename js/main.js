@@ -1,5 +1,5 @@
 const MAX_TRIES = 10
-const MAX_COLORS_COMBIATIONS = 4
+const MAX_COLORS_COMBINATIONS = 4
 const colors = ["white", "blue", "fuchsia", "red", "orange", "yellow", "green", "aqua"]
 const GRAY = "gray"
 const WHITE = "white"
@@ -71,39 +71,24 @@ function createResultArray(userArray, masterArray, colorsInMaster, colorsAmountI
 }
 
 function createRows(maxTries) {
-    const container = document.getElementById("Result")
+    const container = document.getElementById("content")
 
     for (i=1; i<=maxTries; i++) {
         /* Template con el código HTML que corresponde a cada fila de juego/intento. */
-        const ROW_RESULT = `<div class="rowResult w100 flex wrap">
-            <div id="userCombiRow${i}" class="rowUserCombi w75 flex wrap">
-            <div class="w25">
-                <div class="celUserCombi flex"></div>
+        const ROW_RESULT = `
+        <div class="row" id="row${i}">
+            <div class="user-combination">
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
+                <div class="cell"></div>
             </div>
-            <div class="w25">
-                <div class="celUserCombi flex"></div>
+            <div class="result" id="result${i}">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
             </div>
-            <div class="w25">
-                <div class="celUserCombi flex"></div>
-            </div>
-            <div class="w25">
-                <div class="celUserCombi flex"></div>
-            </div>
-            </div>
-            <div id="cercleResult${i}" class="rowCercleResult w25 flex wrap center">
-            <div class="w40 h40">
-                    <div class="cercleResult flex"></div>
-            </div>
-            <div class="w40 h40">
-                <div class="cercleResult flex"></div>
-            </div>
-            <div class="w40 h40">
-                <div class="cercleResult flex"></div>
-            </div>
-            <div class="w40 h40">
-                <div class="cercleResult flex"></div>
-            </div>
-            <div>
         </div>`;
         
         container.innerHTML += ROW_RESULT
@@ -112,48 +97,47 @@ function createRows(maxTries) {
 
 /** Procedimiento que se ejecuta cada vez que el usuario selecciona un color, hasta el número máximo de colores permitidos en la combinación. */
 function añadeColor(color) {
-    const $combiText = document.getElementById("combiText")
-    const userColors = $combiText.value.split("-")
+    const userCombinationText = document.getElementById("userCombinationText")
+    const userColors = userCombinationText.value.split("-")
 
-    if (userColors.length == MAX_COLORS_COMBIATIONS) return
-    if (!$combiText.value) return $combiText.value += color
+    if (userColors.length == MAX_COLORS_COMBINATIONS) return
+    if (!userCombinationText.value) return userCombinationText.value += color
 
-    $combiText.value += `-${color}`
+    userCombinationText.value += `-${color}`
 }
 
 
 /* Llamaremos a esta función desde el botón HTML de la página para comprobar la propuesta de combinación que nos ha introducido el usuario.
 Informamos al usuario del resultado y del número de intentos que lleva*/
 function Comprobar(masterArray) {
-    const $combiText = document.getElementById("combiText")
-    const userColors = $combiText.value.split("-")
+    const userCombinationText = document.getElementById("userCombinationText")
+    const userColors = userCombinationText.value.split("-")
 
     if (!userColors || userColors.length < 4) return
 
-    $combiText.value = ""
+    userCombinationText.value = ""
 
     tries++
-    const tryRow = document.getElementById(`userCombiRow${tries}`)
-    const resultRow = document.getElementById(`cercleResult${tries}`)
+    const tryRow = document.getElementById(`row${tries}`)
+    const resultRow = document.getElementById(`result${tries}`)
 
     const resultColors = compareColors(userColors, masterArray)
 
     for (const i in userColors) {
-        const colorBox = tryRow.querySelector(`div:nth-child(${parseInt(i)+1}) > div.celUserCombi`)
+        const colorBox = tryRow.querySelector(`.user-combination > .cell:nth-child(${parseInt(i)+1})`)
         colorBox.style.backgroundColor = `var(--${userColors[i]})`
 
-        const resultCercle = resultRow.querySelector(`div:nth-child(${parseInt(i)+1}) > div.cercleResult`)
-        resultCercle.style.backgroundColor = resultColors[i]
+        const resultCircle = resultRow.querySelector(`.result > .circle:nth-child(${parseInt(i)+1})`)
+        resultCircle.style.backgroundColor = resultColors[i]
     }
 
     updateTries(userColors, masterArray, resultColors)
 }
 
 function updateTries(userArray, masterArray, resultArray) {
-    const triesInfo = document.getElementById("info")
 
     if (resultArray.every(e => e == "black")) {
-            setTimeout(() => youWin(triesInfo), 100) 
+            setTimeout(() => youWin(), 100) 
             return
         }
 
@@ -162,55 +146,28 @@ function updateTries(userArray, masterArray, resultArray) {
         return
     }
 
-    triesInfo.textContent = `INCORRECTO! Intento número ${tries}, sigui probando :D`
+    triesInfo.textContent = `INCORRECTO! Intento número ${tries}, sigue probando :D`
 }
 
-function youWin(triesInfo) {
-    triesInfo.classList.add("hidden")
-
-    // confetti({
-    //     particleCount: 500,
-    //     spread: 360
-    //   });
-
-    // confetti({
-    // particleCount: 100,
-    // startVelocity: 30,
-    // spread: 360,
-    // origin: {
-    //     x: Math.random(),
-    //     // since they fall down, start a bit higher than random
-    //     y: Math.random() - 0.2
-    // }
-    // });
-
-    var duration = 30 * 1000;
-    var end = Date.now() + duration;
-
+function youWin() {
+    const winDialog = document.getElementById("winDialog")
+    winDialog.showModal()
+    
+    const confettiDuration = Date.now() + 500;
     (function frame() {
-        // launch a few confetti from the left edge
-        confetti({
-            particleCount: 7,
-            angle: 60,
-            spread: 55,
-            origin: { x: 0 }
-        });
-        // and launch a few from the right edge
-        confetti({
-            particleCount: 7,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1 }
-        });
+        confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 } })
+        confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 } })
 
-        // keep going until we are out of time
-        if (Date.now() < end) {
-            requestAnimationFrame(frame);
-        }
-    }());
+        if (Date.now() < confettiDuration) requestAnimationFrame(frame)
+    }())
+
+    setTimeout(() => {
+         confetti({ particleCount: 100, startVelocity: 30, spread: 360, origin: { x: .35, y: .60 } })
+         confetti({ particleCount: 100, startVelocity: 30, spread: 360, origin: { x: .5, y: .25 } })
+         confetti({ particleCount: 100, startVelocity: 30, spread: 360, origin: { x: .65, y: .60 } })
+    }, 1500)
 }
 
 function gameOver() {
 
 }
-
