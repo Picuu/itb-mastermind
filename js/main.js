@@ -21,6 +21,9 @@ function init() {
     // Listener del botón Comprobar
     const checkButton = document.getElementById("checkButton")
     checkButton.addEventListener("click", () => Comprobar(masterArray))
+
+    const remainingTries = document.getElementById("remainingTries")
+    remainingTries.textContent = MAX_TRIES
 }
 
 function generateMasterColors (colorsArray) {
@@ -107,7 +110,6 @@ function añadeColor(color) {
     userCombinationText.value += `-${color}`
 }
 
-
 /* Llamaremos a esta función desde el botón HTML de la página para comprobar la propuesta de combinación que nos ha introducido el usuario.
 Informamos al usuario del resultado y del número de intentos que lleva*/
 function Comprobar(masterArray) {
@@ -135,7 +137,9 @@ function Comprobar(masterArray) {
     updateTries(userColors, masterArray, resultColors)
 }
 
-function updateTries(userArray, masterArray, resultArray) {
+function updateTries(resultArray) {
+    const remainingTries = document.getElementById("remainingTries")
+    remainingTries.textContent = MAX_TRIES - tries
 
     if (resultArray.every(e => e == "black")) {
             setTimeout(() => youWin(), 100) 
@@ -146,8 +150,6 @@ function updateTries(userArray, masterArray, resultArray) {
         gameOver()
         return
     }
-
-    triesInfo.textContent = `INCORRECTO! Intento número ${tries}, sigue probando :D`
 }
 
 function youWin() {
