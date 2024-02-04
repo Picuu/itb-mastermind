@@ -10,7 +10,8 @@ let tries = 0;
 
 function init() {
     // 1. Genera el código random del master
-    const masterArray = generateMasterColors(colors)
+    // const masterArray = generateMasterColors(colors)
+    const masterArray = ["red", "red", "red", "red"]
 
     console.log("Master Array", masterArray)
 
@@ -169,5 +170,11 @@ function youWin() {
 }
 
 function gameOver() {
+    const gameOverDialog = document.getElementById("gameOverDialog")
+    gameOverDialog.showModal()
+}
 
+function closeModal(id) {
+    const dialog = document.getElementById(id)
+    dialog.close()
 }
