@@ -10,8 +10,7 @@ let tries = 0;
 
 function init() {
     // 1. Genera el código random del master
-    // const masterArray = generateMasterColors(colors)
-    const masterArray = ["red", "red", "red", "red"]
+    const masterArray = generateMasterColors(colors)
 
     console.log("Master Array", masterArray)
 
@@ -28,7 +27,7 @@ function init() {
 
 function generateMasterColors (colorsArray) {
     const array = []
-    for (i=1; i<=MAX_COLORS_COMBIATIONS; i++) {
+    for (i=1; i<=MAX_COLORS_COMBINATIONS; i++) {
         const pos = Math.round(Math.random() * (colors.length - 1))
         array.push(colorsArray[pos])
     }
