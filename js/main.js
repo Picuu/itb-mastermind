@@ -189,6 +189,7 @@ function showResult(masterArray) {
 function closeModal(id) {
     const dialog = document.getElementById(id)
     dialog.close()
+    document.body.classList.remove("remove-scrolling"); 
 }
 
 function disableButtons() {
@@ -197,4 +198,7 @@ function disableButtons() {
 
     const checkButton = document.getElementById("checkButton")
     checkButton.style.pointerEvents = "none"
+
+    window.scrollTo(0, 0)
+    document.body.classList.add("remove-scrolling"); 
 }

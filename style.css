@@ -239,3 +239,8 @@ h1 {
     backdrop-filter: blur(4px);
     background-color: rgba(0, 0, 0, .25);
 }
+
+.remove-scrolling { 
+    height: 100%; 
+    overflow: hidden; 
+} 
