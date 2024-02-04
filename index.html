@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width">
 
     <title>🧮 Mastermind | Carlos Capó</title>
 
@@ -17,65 +17,69 @@
 </head>
 
 <body onload="init()">
-    <main class="w100">
-        <div class="bloqueado">
-            <h1 class="text-center">🧮 Mastermind</h1>
-            <section id="master" class="w100 flex wrap center">
-                <div class="w100 flex wrap">
-                    <div class="w25">
-                        <div class="cel flex"></div>
-                    </div>
-                    <div class="w25">
-                        <div class="cel flex"></div>
-                    </div>
-                    <div class="w25">
-                        <div class="cel flex"></div>
-                    </div>
-                    <div class="w25">
-                        <div class="cel flex"></div>
-                    </div>
-                </div>
-            </section>
-            <section class="w100 flex wrap center comprobar">
-                <label class="w90" for="numero">Haz tu combinación seleccionando los colores que quieras</label><br>
-                <section id="selección" class="w100 flex wrap center">
-                    <div class="w100 flex wrap center">
-                        <div class="w8">
-                            <div id="white" class="w100 cel flex" onclick="añadeColor('white')"></div>
-                        </div>
-                        <div class="w8">
-                            <div id="green" class="w100 cel flex" onclick="añadeColor('green')"></div>
-                        </div>
-                        <div class="w8">
-                            <div id="red" class="w100 cel flex" onclick="añadeColor('red')"></div>
-                        </div>
-                        <div class="w8">
-                            <div id="blue" class="w100 cel flex" onclick="añadeColor('blue')"></div>
-                        </div>
-                        <div class="w8">
-                            <div id="fuchsia" class="w100 cel flex" onclick="añadeColor('fuchsia')"></div>
-                        </div>
-                        <div class="w8">
-                            <div id="yellow" class="w100 cel flex" onclick="añadeColor('yellow')"></div>
-                        </div>
-                        <div class="w8">
-                            <div id="orange" class="w100 cel flex" onclick="añadeColor('orange')"></div>
-                        </div>
-                        <div class="w8">
-                            <div id="aqua" class="w100 cel flex" onclick="añadeColor('aqua')"></div>
-                        </div>
-                    </div>
-                </section>
-                <input disabled class="w90" type="text" id="combiText" name="combiText" value=""><br>
-                <button id="checkButton" class="w90">Comprobar</button>
-            </section>
 
-            <p class="w100 info" id="info">Primer intento, suerte!</p>
+    <dialog id="winDialog" class="dialog">
+        <div>    
+            <h2>¡Felicidades!</h2>
+            <p>¡Has ganado!</p>
+        </div>
+        <div class="dialog-buttons">
+            <button onclick="location.reload()">Volver a jugar</button>
+            <button onclick="closeModal('winDialog')">Ver resultados</button>
         </div>
 
-        <section id="Result" class="flex wrap center">
-            <!-- aquí es donde deberemos ir añadiendo filas según el número de intentos.-->
+        <h3>Número de intentos: <span id="totalTries">0</span></h3>
+    </dialog>
+
+    <dialog id="gameOverDialog" class="dialog">
+        <div>    
+            <h2>¡Game Over!</h2>
+            <p>¡Lo sentimos, has perdido!</p>
+        </div>
+        <div class="dialog-reload-button">
+            <button onclick="location.reload()">Volver a jugar</button>
+            <button onclick="closeModal('gameOverDialog')">Ver resultados</button>
+        </div>
+
+        <h3>Número máximo de intentos superado</h3>
+    </dialog>
+
+    <header>
+        <h1>🧮 Mastermind</h1>
+        <section class="solution">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </section>
+
+        <section class="color-palette">
+            <h2>Selecciona los colores que quieras!</h2>
+
+            <div class="palette">
+                <div id="white" onclick="añadeColor('white')"></div>
+                <div id="green" onclick="añadeColor('green')"></div>
+                <div id="red" onclick="añadeColor('red')"></div>
+                <div id="blue" onclick="añadeColor('blue')"></div>
+                <div id="fuchsia" onclick="añadeColor('fuchsia')"></div>
+                <div id="yellow" onclick="añadeColor('yellow')"></div>
+                <div id="orange" onclick="añadeColor('orange')"></div>
+                <div id="aqua" onclick="añadeColor('aqua')"></div>
+            </div>
+
+            <input disabled type="text" value="" id="userCombinationText">
+
+            <button id="checkButton">Comprobar</button>
+        </section>
+
+        <section class="tries-info">
+            <h2>Intentos restantes: <span id="remainingTries">10</span></h2>
+        </section>
+    </header>
+
+    <main>
+
+        <div id="content" class="content"></div>
 
         <section>
             <h3>Reglas del juego</h3>
