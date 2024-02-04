@@ -134,19 +134,21 @@ function Comprobar(masterArray) {
         resultCircle.style.backgroundColor = resultColors[i]
     }
 
-    updateTries(resultColors)
+    updateTries(resultColors, masterArray)
 }
 
-function updateTries(resultArray) {
+function updateTries(resultArray, masterArray) {
     const remainingTries = document.getElementById("remainingTries")
     remainingTries.textContent = MAX_TRIES - tries
 
     if (resultArray.every(e => e == "black")) {
-            setTimeout(() => youWin(), 100) 
+            showResult(masterArray)
+            youWin()
             return
         }
 
     if (tries == MAX_TRIES) {
+        showResult(masterArray)
         gameOver()
         return
     }
@@ -178,6 +180,11 @@ function gameOver() {
     gameOverDialog.showModal()
 
     disableButtons()
+}
+
+function showResult(masterArray) {
+    const solution = document.querySelectorAll("#solution > div")
+    for (const i in masterArray) solution[i].style.backgroundColor = `var(--${masterArray[i]})`
 }
 
 function closeModal(id) {
